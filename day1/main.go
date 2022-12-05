@@ -8,11 +8,16 @@ import (
 )
 
 func main() {
-	data, err := os.Open("./input.txt")
-	check(err)
+	raw, _ := os.Open("./input.txt")
 
-	scan := bufio.NewScanner(data)
+	data := bufio.NewScanner(raw)
 
+    part1, part2 := Solution(data)
+    fmt.Printf("Part 1: %d\n", part1)
+    fmt.Printf("Part 2: %d\n", part2)
+}
+
+func Solution(data *bufio.Scanner) (int, int) {
     // probably could have made the 3 variables into a slice or arr for more
     // scalability
 	max := 0
@@ -21,8 +26,8 @@ func main() {
 
 	curr := 0
 
-	for scan.Scan() {
-		line := scan.Text()
+	for data.Scan() {
+		line := data.Text()
 
 		if line == "" {
 			if curr > max {
@@ -39,8 +44,7 @@ func main() {
 			continue
 		}
 
-		num, err := strconv.Atoi(line)
-		check(err)
+		num, _ := strconv.Atoi(line)
 		curr += num
 	}
     // run one more time at EOF, yes its jank ik
@@ -55,12 +59,5 @@ func main() {
 		max3 = curr
 	}
 	curr = 0
-
-	fmt.Println(max + max2 + max3)
-}
-
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
+    return max, max + max2 + max3
 }
