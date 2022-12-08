@@ -15,7 +15,7 @@ func main() {
 	ans := Part1(data)
 	fmt.Printf("Part 1: %d\n", ans)
 
-    raw.Seek(0, 0)
+	raw.Seek(0, 0)
 	data = bufio.NewScanner(raw)
 
 	ans2 := Part2(data)
