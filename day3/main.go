@@ -68,12 +68,12 @@ func Part2(data *bufio.Scanner) int {
 		rucksack3 := data.Text()
 
 		for i := 0; i < len(rucksack1); i++ {
-            inRucksack2 := strings.ContainsRune(rucksack2, rune(rucksack1[i]))
-            inRucksack3 := strings.ContainsRune(rucksack3, rune(rucksack1[i]))
-            if inRucksack2 && inRucksack3 {
-                score += priorityOf(rucksack1[i])
-                break
-            }
+			inRucksack2 := strings.ContainsRune(rucksack2, rune(rucksack1[i]))
+			inRucksack3 := strings.ContainsRune(rucksack3, rune(rucksack1[i]))
+			if inRucksack2 && inRucksack3 {
+				score += priorityOf(rucksack1[i])
+				break
+			}
 		}
 	}
 
