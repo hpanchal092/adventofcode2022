@@ -31,6 +31,10 @@ const (
 	Multiply Operation = 1
 )
 
+func getListOfPrimes() []uint64 {
+	return []uint64{23, 19, 17, 13, 11, 7, 5, 3, 2}
+}
+
 type Monkey struct {
 	items        []uint64
 	operand1     int
@@ -177,6 +181,8 @@ func fillMonkeyOperation(m *Monkey, words []string) {
 func Part2(data *bufio.Scanner) uint64 {
 	monkeys := make([]*Monkey, 0, 10)
 
+	commonMultiple := 1
+
 	// fill out the monkeys 🐵
 	currMonkey := 0
 	for data.Scan() {
@@ -201,6 +207,7 @@ func Part2(data *bufio.Scanner) uint64 {
 		}
 		if words[0] == "Test:" {
 			monkeys[currMonkey].check, _ = strconv.Atoi(words[3])
+			commonMultiple *= monkeys[currMonkey].check
 		}
 		if words[0] == "If" && words[1] == "true:" {
 			monkeys[currMonkey].trueThrow, _ = strconv.Atoi(words[5])
@@ -212,7 +219,7 @@ func Part2(data *bufio.Scanner) uint64 {
 
 	// perform rounds
 	for i := 0; i < 10000; i++ {
-		performRound2(monkeys)
+		performRound2(monkeys, commonMultiple)
 	}
 
 	var max uint64
@@ -229,11 +236,13 @@ func Part2(data *bufio.Scanner) uint64 {
 	return max * max2
 }
 
-func performRound2(monkeys []*Monkey) {
+func performRound2(monkeys []*Monkey, commonMultiple int) {
 	for _, m := range monkeys {
 		for len(m.items) > 0 {
 			// increment inspectCount
 			m.inspectCount++
+
+			m.items[0] %= uint64(commonMultiple)
 
 			// perform operation
 			performOperation(m, &m.items[0])
